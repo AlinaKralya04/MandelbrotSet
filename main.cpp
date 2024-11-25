@@ -4,11 +4,21 @@
 
 int main()
 {
+    //Get the desktop resolution using:
+    //VideoMode::getDesktopMode().width;
+    //VideoMode::getDesktopMode().height;
+    //Note:  you may want to divide these values by 2 to start with a smaller screen so your program runs faster
     int pixelWidth = VideoMode::getDesktopMode().width;
     int pixelHeight = VideoMode::getDesktopMode().height;
+
+    //Construct the RenderWindow
     VideoMode vm(pixelWidth, pixelHeight);
     RenderWindow window(vm, "Mandelbrot Set", Style::Default);
 
+    //Construct the ComplexPlane
+    ComplexPlane plane;
+
+    //Construct the Font and Text objects
     Text text;
     Font font;
     font.loadFromFile("SparkyStonesRegular-BW6ld.ttf");
@@ -18,7 +28,6 @@ int main()
     text.setStyle(Text::Italic);
     text.setPosition(400.f, 200.f);
 
-    ComplexPlane plane;
     Event event;
     while (window.pollEvent(event))
     {
