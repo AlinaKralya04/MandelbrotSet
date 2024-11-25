@@ -1,3 +1,4 @@
+#include <complex>
 #include "ComplexPlane.h"
 
 ComplexPlane::ComplexPlane(int pixelWidth, int pixelHeight) 
@@ -76,7 +77,20 @@ void ComplexPlane::updateRender()
 	}
 }
 
-//int ComplexPlane::countIterations(Vector2f coord) {}
+size_t ComplexPlane::countIterations(Vector2f coord) 
+{
+	size_t i = 0;
+	complex<float> c = { coord.x, coord.y };
+	complex<float> z = c;
+
+	while (abs(z) < 2.0 && i < MAX_ITER)
+	{
+		z = z * z + c;
+		i++;
+	}
+
+	return i;
+}
 
 //void ComplexPlane::iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b) {}
 
