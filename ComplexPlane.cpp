@@ -1,8 +1,20 @@
 #include "ComplexPlane.h"
 
-//ComplexPlane::ComplexPlane(int pixelWidth, int pixelHeight) {}
+ComplexPlane::ComplexPlane(int pixelWidth, int pixelHeight) 
+{
+	m_pixel_size = { pixelWidth, pixelHeight };
+	m_aspectRatio = (pixelHeight * 1.0) / pixelWidth;
+	m_plane_center = { 0,0 };
+	m_plane_size = { BASE_WIDTH, BASE_HEIGHT * m_aspectRatio };
+	m_zoomCount = 0;
+	m_state = State::CALCULATING;
+	VertexArray m_vArray(Points, pixelWidth * pixelHeight);
+}
 
-//void ComplexPlane::draw(RenderTarget& target, RenderStates states) const {}
+void ComplexPlane::draw(RenderTarget& target, RenderStates states) const 
+{
+	target.draw(m_vArray);
+}
 
 //void ComplexPlane::zoomIn() {}
 
