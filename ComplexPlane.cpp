@@ -1,4 +1,6 @@
 #include <complex>
+#include <iomanip>
+#include <sstream>
 #include "ComplexPlane.h"
 
 ComplexPlane::ComplexPlane(int pixelWidth, int pixelHeight) 
@@ -15,36 +17,33 @@ ComplexPlane::ComplexPlane(int pixelWidth, int pixelHeight)
 	m_vArray.resize(pixelWidth * pixelHeight);
 }
 
-void ComplexPlane::draw(RenderTarget& target, RenderStates states) const 
+void ComplexPlane::draw(RenderTarget& target, RenderStates states) const
 {
 	target.draw(m_vArray);
 }
 
-void ComplexPlane::zoomIn() 
+void ComplexPlane::zoomIn()
 {
-	//Increment m_zoomCount
 	m_zoomCount++;
-	//Set a local variable for the x size to BASE_WIDTH* (BASE_ZOOM to the m_zoomCount power)
+
+	//Set a local variable for the x size to BASE_WIDTH* (BASE_ZOOM to the m_ZoomCount power)
+	//Set a local variable for the y size to BASE_HEIGHT* m_aspectRatio* (BASE_ZOOM to the m_ZoomCount power)
 	float x = BASE_WIDTH * pow(BASE_ZOOM, m_zoomCount);
-	//Set a local variable for the y size to BASE_HEIGHT* m_aspectRatio* (BASE_ZOOM to the m_zoomCount power)
 	float y = BASE_HEIGHT * m_aspectRatio * pow(BASE_ZOOM, m_zoomCount);
-	//Assign m_plane_size with this new size
-	m_plane_size = {x,y};
-	//Set m_State to CALCULATING
+
+	m_plane_size = { x,y };
 	m_state = CALCULATING;
 }
 
-void ComplexPlane::zoomOut() 
+void ComplexPlane::zoomOut()
 {
-	//Decrement m_zoomCount
 	m_zoomCount--;
-	//Set a local variable for the x size to BASE_WIDTH* (BASE_ZOOM to the m_zoomCount power)
+
+	//Same as zoomIn() coordinates
 	float x = BASE_WIDTH * pow(BASE_ZOOM, m_zoomCount);
-	//Set a local variable for the y size to BASE_HEIGHT* m_aspectRatio* (BASE_ZOOM to the m_zoomCount power)
 	float y = BASE_HEIGHT * m_aspectRatio * pow(BASE_ZOOM, m_zoomCount);
-	//Assign m_plane_size with this new size
+
 	m_plane_size = { x,y };
-	//Set m_State to CALCULATING
 	m_state = CALCULATING;
 }
 
@@ -80,12 +79,12 @@ void ComplexPlane::updateRender()
 
 	if (m_state == CALCULATING)
 	{
-		for (int i = 0; i < pixelHeight; i++)
+		for (int j = 0; j < pixelWidth; j++)
 		{
-			for (int j = 0; j < pixelWidth; j++)
+			for (int i = 0; i < pixelHeight; i++)
 			{
 				m_vArray[j + i * pixelWidth].position = { (float)j, (float)i };
-				Vector2f current_coord = mapPixelToCoords({ (float)j, (float)i });
+				Vector2f current_coord = mapPixelToCoords({ j, i });
 
 				Uint8 r, g, b;
 				iterationsToRGB(countIterations(current_coord), r, g, b);
@@ -102,7 +101,7 @@ size_t ComplexPlane::countIterations(Vector2f coord)
 	complex<float> c = { coord.x, coord.y };
 	complex<float> z = c;
 
-	while (abs(z) < 2.0)
+	while (abs(z) < 2.0 && i < MAX_ITER)
 	{
 		z = z * z + c;
 		i++;
@@ -171,11 +170,15 @@ Vector2f ComplexPlane::mapPixelToCoords(Vector2i mousePixel)
 	//Example x: x = 960 would map to:  ((960 - 0) / (1920 - 0)) * (2 - - 2) + (-2) == 0
 	//Example y: y = 540 would map to:  ((540 - 1080) / (0 - 1080)) * (2 - - 2) + (-2) == 0
 
-	float coord_x = ((mousePixel.x - 0) / float(m_plane_size.x - 0)) * m_plane_size.x
+	/*float coord_x = ((mousePixel.x - 0) / float(m_plane_size.x - 0)) * m_plane_size.x
 		+ (m_plane_center.x - m_plane_size.x / 2.0);
 
 	float coord_y = ((mousePixel.y - m_plane_size.y) / float(0 - m_plane_size.y)) * m_plane_size.y
-		+ (m_plane_center.y - m_plane_size.y / 2.0);
+		+ (m_plane_center.y - m_plane_size.y / 2.0); */
+
+	float coord_x = (mousePixel.x - m_pixel_size.x / 2.0) * (m_plane_size.x / m_pixel_size.x) + m_plane_center.x;
+	float coord_y = (mousePixel.y - m_pixel_size.y / 2.0) * (m_plane_size.y / m_pixel_size.y) + m_plane_center.y;
+
 
 	return { coord_x, coord_y };
 }
