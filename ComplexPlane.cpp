@@ -97,7 +97,7 @@ size_t ComplexPlane::countIterations(Vector2f coord)
 	complex<float> c = { coord.x, coord.y };
 	complex<float> z = c;
 
-	while (abs(z) < 2.0 && i < MAX_ITER)
+	while (abs(z) < 2.0)
 	{
 		z = z * z + c;
 		i++;
