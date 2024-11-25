@@ -59,16 +59,18 @@ void ComplexPlane::setMouseLocation(Vector2i mousePixel)
 	m_mouseLocation = mapPixelToCoords({ mousePixel.x, mousePixel.y });
 }
 
-void ComplexPlane::loadText(Text& text) 
+void ComplexPlane::loadText(Text& text)
 {
 	//Use a stringstream and the corresponding member variables to create the following output :
 	//Note:  Cursor should update live as the user moves the mouse.  Center should only update after they click.
 	stringstream out;
-	out << "Mandelbrot Set" << endl;
-	out << "Center: (" << m_plane_center.x << "," << m_plane_center.y << ")" << endl;
-	out << "Cursor: (" << m_mouseLocation.x << "," << m_mouseLocation.y << ")" << endl;
-	out << "Left-click to Zoom in" << endl;
-	out << "Right-click to Zoom out" << endl;
+	out << "Mandelbrot Set\n"
+		<< "Center: (" << m_plane_center.x << "," << m_plane_center.y << ")\n"
+		<< "Cursor: (" << fixed << setprecision(5) << m_mouseLocation.x << "," << m_mouseLocation.y << ")\n"
+		<< "Left-click to Zoom in\n"
+		<< "Right-click to Zoom out\n";
+
+	text.setString(out.str());
 }
 
 void ComplexPlane::updateRender() 
