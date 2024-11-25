@@ -64,7 +64,7 @@ int main()
 
 			//update scene segment
 			plane.updateRender();
-			plane.loadText();
+			plane.loadText(text);
 			//draw scene segment
 			window.clear();
 			window.draw(plane);
