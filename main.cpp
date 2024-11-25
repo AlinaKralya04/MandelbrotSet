@@ -1,23 +1,14 @@
-// abs complex example
-#include <iostream>     // std::cout
-#include <complex>      // std::complex, std::abs
-// abs complex example
-#include <iostream>     // std::cout
-#include <complex>      // std::complex, std::abs
-//#include <SFML/Graphics.hpp>
-//#include <SFML/Audio.hpp>
-#include <iostream>
 #include <sstream>
 #include <vector>
-using namespace sf;
-using namespace std;
+#include "ComplexPlane.h"
 
-int main ()
+int main()
 {
-    VideoMode vm(1440, 900);
-    VideoMode::getDesktopMode().width;
-    VideoMode::getDesktopMode().height;
+    int pixelWidth = VideoMode::getDesktopMode().width;
+    int pixelHeight = VideoMode::getDesktopMode().height;
+    VideoMode vm(pixelWidth, pixelHeight);
     RenderWindow window(vm, "Mandelbrot Set", Style::Default);
+
     Text text;
     Font font;
     text.setFont(font);
