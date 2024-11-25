@@ -73,7 +73,7 @@ int main()
             plane.loadText();
             //draw scene segemnt
             window.clear();
-            plane.draw();
+            window.draw(plane);
             window.draw(text);
             window.display();
 
