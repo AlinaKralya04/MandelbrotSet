@@ -33,7 +33,19 @@ void ComplexPlane::zoomIn()
 	m_State = CALCULATING;
 }
 
-//void ComplexPlane::zoomOut() {}
+void ComplexPlane::zoomOut() 
+{
+	//Decrement m_zoomCount
+	m_zoomCount--;
+	//Set a local variable for the x size to BASE_WIDTH* (BASE_ZOOM to the m_ZoomCount power)
+	int x = BASE_WIDTH * pow(BASE_ZOOM, m_ZoomCount);
+	//Set a local variable for the y size to BASE_HEIGHT* m_aspectRatio* (BASE_ZOOM to the m_ZoomCount power)
+	int y = BASE_HEIGHT * m_aspectRatio * pow(BASE_ZOOM, m_ZoomCount);
+	//Assign m_plane_size with this new size
+	m_plane_size = { x,y };
+	//Set m_State to CALCULATING
+	m_State = CALCULATING;
+}
 
 //void ComplexPlane::setCenter(Vector2i mousePixel) {}
 
