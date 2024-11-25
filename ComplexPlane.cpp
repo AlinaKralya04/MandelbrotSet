@@ -53,7 +53,28 @@ void ComplexPlane::zoomOut()
 
 //void ComplexPlane::loadText(Text& text) {}
 
-//void ComplexPlane::updateRender() {}
+void ComplexPlane::updateRender() 
+{
+	int pixelWidth = m_pixel_size.x;
+	int pixelHeight = m_pixel_size.y;
+
+	if (m_state == CALCULATING)
+	{
+		for (int i = 0; i < pixelHeight; i++)
+		{
+			for (int j = 0; j < pixelWidth; j++)
+			{
+				m_vArray[j + i * pixelWidth].position = { (float)j, (float)i };
+				Vector2f current_coord = mapPixelToCoords({ (float)j, (float)i });
+
+				Uint8 r, g, b;
+				iterationsToRGB(countIterations(current_coord), r, g, b);
+				m_vArray[j + i * pixelWidth].color = { r, g, b };
+			}
+		}
+		m_state = DISPLAYING;
+	}
+}
 
 //int ComplexPlane::countIterations(Vector2f coord) {}
 
