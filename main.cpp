@@ -6,8 +6,8 @@ int main()
     //VideoMode::getDesktopMode().width;
     //VideoMode::getDesktopMode().height;
     //Note:  you may want to divide these values by 2 to start with a smaller screen so your program runs faster
-    int pixelWidth = VideoMode::getDesktopMode().width / 2;
-    int pixelHeight = VideoMode::getDesktopMode().height / 2;
+    int pixelWidth = VideoMode::getDesktopMode().width;
+    int pixelHeight = VideoMode::getDesktopMode().height;
 
     //Construct the RenderWindow
     VideoMode vm(pixelWidth, pixelHeight);
@@ -65,6 +65,7 @@ int main()
 			//update scene segment
 			plane.updateRender();
 			plane.loadText(text);
+
 			//draw scene segment
 			window.clear();
 			window.draw(plane);
@@ -72,5 +73,4 @@ int main()
 			window.display();
 		}
 	}
-    
 }
