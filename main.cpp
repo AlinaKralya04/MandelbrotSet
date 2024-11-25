@@ -11,6 +11,7 @@ int main()
 
     Text text;
     Font font;
+    font.loadFromFile("SparkyStonesRegular-BW6ld.ttf");
     text.setFont(font);
     text.setCharacterSize(30); 
     text.setFillColor(Color::White);
