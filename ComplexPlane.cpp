@@ -31,7 +31,7 @@ void ComplexPlane::zoomIn()
 	//Assign m_plane_size with this new size
 	m_plane_size = {x,y};
 	//Set m_State to CALCULATING
-	m_State = CALCULATING;
+	m_state = CALCULATING;
 }
 
 void ComplexPlane::zoomOut() 
@@ -45,7 +45,7 @@ void ComplexPlane::zoomOut()
 	//Assign m_plane_size with this new size
 	m_plane_size = { x,y };
 	//Set m_State to CALCULATING
-	m_State = CALCULATING;
+	m_state = CALCULATING;
 }
 
 void ComplexPlane::setCenter(Vector2i mousePixel) 
@@ -55,7 +55,7 @@ void ComplexPlane::setCenter(Vector2i mousePixel)
 	//Assign m_plane_center with this coordinate
 	m_plane_center = current_coord;
 	//Set m_State to CALCULATING
-	m_State = CALCULATING;
+	m_state = CALCULATING;
 }
 
 void ComplexPlane::setMouseLocation(Vector2i mousePixel) 
@@ -116,7 +116,59 @@ size_t ComplexPlane::countIterations(Vector2f coord)
 	return i;
 }
 
-//void ComplexPlane::iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b) {}
+void ComplexPlane::iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b) 
+{
+	//If the coord converges, assign colours to black
+	if (count >= MAX_ITER)
+	{
+		r = g = b = 0;
+		return;
+	}
+
+	//For smooth colour transition it is easier to work with the values from 0 to 1
+	float gradient = (float)count / MAX_ITER;
+
+	//Max values: r = 255, g = 255, b = 255
+	//First region: Purple (128, 0, 255) to Blue (0, 0, 255)
+	if (gradient < 0.2)
+	{
+		r = (128 + 127 * gradient / 0.2);
+		g = 0;
+		b = 255;
+	}
+	//Second region: Turquoise (0, 255, 255)
+	else if (gradient < 0.4)
+	{
+		float grad = (gradient - 0.2) / 0.2; //Rescale gradient back to 0 to 1
+		r = 255 * (1.0 - grad);
+		g = 255 * grad;
+		b = 255;
+	}
+	//Third region: Green (0, 255, 0)
+	else if (gradient < 0.6)
+	{
+		float grad = (gradient - 0.4) / 0.2;
+		r = 0;
+		g = 255;
+		b = 255 * (1.0 - grad);
+	}
+	//Fourth region: Yellow (255, 255, 0)
+	else if (gradient < 0.8)
+	{
+		float grad = (gradient - 0.6) / 0.2;
+		r = 255 * grad;
+		g = 255;
+		b = 0;
+	}
+	//Fifth region: Red (255, 0, 0)
+	else
+	{
+		float grad = (gradient - 0.8) / 0.2;
+		r = 255;
+		g = 255 * (1.0 - grad);
+		b = 0;
+	}
+}
 
 Vector2f ComplexPlane::mapPixelToCoords(Vector2i mousePixel)
 {
