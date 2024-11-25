@@ -48,22 +48,15 @@ void ComplexPlane::zoomOut()
 	m_state = CALCULATING;
 }
 
-void ComplexPlane::setCenter(Vector2i mousePixel) 
+void ComplexPlane::setCenter(Vector2i mousePixel)
 {
-	//Use ComplexPlane::mapPixelToCoords to find the Vector2f coordinate in the complex plane that corresponds to the screen pixel location
-	Vector2f current_coord = mapPixelToCoords({ mousePixel.x, mousePixel.y });
-	//Assign m_plane_center with this coordinate
-	m_plane_center = current_coord;
-	//Set m_State to CALCULATING
+	m_plane_center = mapPixelToCoords({ mousePixel.x, mousePixel.y });
 	m_state = CALCULATING;
 }
 
-void ComplexPlane::setMouseLocation(Vector2i mousePixel) 
+void ComplexPlane::setMouseLocation(Vector2i mousePixel)
 {
-	//Use ComplexPlane::mapPixelToCoords to find the Vector2f coordinate in the complex plane that corresponds to the screen pixel location
-	Vector2f current_coord = mapPixelToCoords({ mousePixel.x, mousePixel.y });
-	//Assign m_mouseLocation with this coordinate
-	m_mouseLocation = current_coord;
+	m_mouseLocation = mapPixelToCoords({ mousePixel.x, mousePixel.y });
 }
 
 void ComplexPlane::loadText(Text& text) 
@@ -72,8 +65,8 @@ void ComplexPlane::loadText(Text& text)
 	//Note:  Cursor should update live as the user moves the mouse.  Center should only update after they click.
 	stringstream out;
 	out << "Mandelbrot Set" << endl;
-	out << "Center: (" << ? << "," << ? << ")" << endl;
-	out << "Cursor: (" << ? << "," << ? << ")" << endl;
+	out << "Center: (" << m_plane_center.x << "," << m_plane_center.y << ")" << endl;
+	out << "Cursor: (" << m_mouseLocation.x << "," << m_mouseLocation.y << ")" << endl;
 	out << "Left-click to Zoom in" << endl;
 	out << "Right-click to Zoom out" << endl;
 }
