@@ -51,7 +51,7 @@ void ComplexPlane::zoomOut()
 void ComplexPlane::setCenter(Vector2i mousePixel) 
 {
 	//Use ComplexPlane::mapPixelToCoords to find the Vector2f coordinate in the complex plane that corresponds to the screen pixel location
-	Vector2f current_coord = mapPixelToCoords({ (float)j, (float)i });
+	Vector2f current_coord = mapPixelToCoords({ mousePixel.x, mousePixel.y });
 	//Assign m_plane_center with this coordinate
 	m_plane_center = current_coord;
 	//Set m_State to CALCULATING
@@ -61,7 +61,7 @@ void ComplexPlane::setCenter(Vector2i mousePixel)
 void ComplexPlane::setMouseLocation(Vector2i mousePixel) 
 {
 	//Use ComplexPlane::mapPixelToCoords to find the Vector2f coordinate in the complex plane that corresponds to the screen pixel location
-	Vector2f current_coord = mapPixelToCoords({ (float)j, (float)i });
+	Vector2f current_coord = mapPixelToCoords({ mousePixel.x, mousePixel.y });
 	//Assign m_mouseLocation with this coordinate
 	m_mouseLocation = current_coord;
 }
