@@ -108,4 +108,17 @@ size_t ComplexPlane::countIterations(Vector2f coord)
 
 //void ComplexPlane::iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b) {}
 
-//Vector2f ComplexPlane::mapPixelToCoords(Vector2i mousePixel) {}
+Vector2f ComplexPlane::mapPixelToCoords(Vector2i mousePixel)
+{
+	//Formula: ((n  - a) / (b - a)) * (d - c) + c
+	//Example x: x = 960 would map to:  ((960 - 0) / (1920 - 0)) * (2 - - 2) + (-2) == 0
+	//Example y: y = 540 would map to:  ((540 - 1080) / (0 - 1080)) * (2 - - 2) + (-2) == 0
+
+	float coord_x = ((mousePixel.x - 0) / float(m_plane_size.x - 0)) * m_plane_size.x
+		+ (m_plane_center.x - m_plane_size.x / 2.0);
+
+	float coord_y = ((mousePixel.y - m_plane_size.y) / float(0 - m_plane_size.y)) * m_plane_size.y
+		+ (m_plane_center.y - m_plane_size.y / 2.0);
+
+	return { coord_x, coord_y };
+}
