@@ -28,53 +28,55 @@ int main()
     text.setStyle(Text::Italic);
     text.setPosition(400.f, 200.f);
 
-    Event event;
-    while (window.pollEvent(event))
-    {
-        // handle input segment?
-        if (event.type == Event::Closed)
+    while (window.isOpen())
+	{
+        Event event;
+        while (window.pollEvent(event))
         {
-            // Quit the game when the window is closed
-            window.close();
-        }
-        if (event.type == sf::Event::MouseButtonPressed)
-        {
-            if (event.mouseButton.button == sf::Mouse::Left)
+            // handle input segment?
+            if (event.type == Event::Closed)
             {
-                plane.zoomIn();
-                plane.setCenter();
-                std::cout << "the left button was pressed" << std::endl;
-                std::cout << "mouse x: " << event.mouseButton.x << std::endl;
-                std::cout << "mouse y: " << event.mouseButton.y << std::endl;
+                // Quit the game when the window is closed
+                window.close();
             }
-            else if (event.mouseButton.button == sf::Mouse::Right)
+            if (event.type == sf::Event::MouseButtonPressed)
             {
-                plane.zoomOut();
-                plane.setCenter();
-                std::cout << "the right button was pressed" << std::endl;
-                std::cout << "mouse x: " << event.mouseButton.x << std::endl;
-                std::cout << "mouse y: " << event.mouseButton.y << std::endl;
+                if (event.mouseButton.button == sf::Mouse::Left)
+                {
+                    plane.zoomIn();
+                    plane.setCenter();
+                    std::cout << "the left button was pressed" << std::endl;
+                    std::cout << "mouse x: " << event.mouseButton.x << std::endl;
+                    std::cout << "mouse y: " << event.mouseButton.y << std::endl;
+                }
+                else if (event.mouseButton.button == sf::Mouse::Right)
+                {
+                    plane.zoomOut();
+                    plane.setCenter();
+                    std::cout << "the right button was pressed" << std::endl;
+                    std::cout << "mouse x: " << event.mouseButton.x << std::endl;
+                    std::cout << "mouse y: " << event.mouseButton.y << std::endl;
+                }
             }
-        }
-        if (event.type == sf::Event::MouseMoved)
-        {
-            plane.setMouseLocation();
-            std::cout << "new mouse x: " << event.mouseMove.x << std::endl;
-            std::cout << "new mouse y: " << event.mouseMove.y << std::endl;
-        }
-        if (Keyboard::isKeyPressed(Keyboard::Escape))
-        {
-            window.close();
-        }
-        //update scene segment
-        plane.updateRender();
-        plane.loadText();
-        //draw scene segemnt
-        window.clear();
-        plane.draw();
-        window.draw(text);
-        window.display();
+            if (event.type == sf::Event::MouseMoved)
+            {
+                plane.setMouseLocation();
+                std::cout << "new mouse x: " << event.mouseMove.x << std::endl;
+                std::cout << "new mouse y: " << event.mouseMove.y << std::endl;
+            }
+            if (Keyboard::isKeyPressed(Keyboard::Escape))
+            {
+                window.close();
+            }
+            //update scene segment
+            plane.updateRender();
+            plane.loadText();
+            //draw scene segemnt
+            window.clear();
+            plane.draw();
+            window.draw(text);
+            window.display();
 
-
+        }
     }
 }
